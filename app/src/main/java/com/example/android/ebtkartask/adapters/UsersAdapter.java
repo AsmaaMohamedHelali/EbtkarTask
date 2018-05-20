@@ -28,17 +28,20 @@ import android.widget.Toast;
 
 
 import com.example.android.ebtkartask.R;
+import com.example.android.ebtkartask.models.response.Client;
+
+import java.util.List;
 
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> {
 
 
-//    private OrdersResultResponse ordersResult;
+    private List<Client> clients;
     private Context context;
 
 
-    public UsersAdapter(Context context) {
-//        this.ordersResult = ordersResult;
+    public UsersAdapter(List<Client> clients,Context context) {
+        this.clients = clients;
         this.context=context;
     }
 
@@ -59,10 +62,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
     @Override
     public void onBindViewHolder(UsersViewHolder holder, final int position) {
-//        holder.tvDate.setText(ordersResult.getData().get(position).getOrderDate());
-//        holder.tvCustomerName.setText(ordersResult.getData().get(position).getCustomers().getCustomer_name());
-//        holder.tvOrderId.setText(ordersResult.getData().get(position).getOrder_Id()+"");
-//        holder.tvTotal.setText(ordersResult.getData().get(position).getTotal()+"£");
+        holder.tvUName.setText(clients.get(position).getName());
+        holder.tvUMobile.setText(clients.get(position).getMobile());
 //
 //        holder.rlOrders.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -77,20 +78,23 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
     @Override
     public int getItemCount() {
-//        if(ordersResult.getData()!=null){
-//            return ordersResult.getData().size();
-//        }
+        if(clients!=null){
+            return clients.size();
+        }
         return 0;
     }
 
 
     class UsersViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvDate, tvCustomerName, tvTotal,tvOrderId;
-        RelativeLayout rlOrders;
+        TextView tvUName, tvUMobile;
+        RelativeLayout rlUsers;
 
         public UsersViewHolder(View itemView) {
             super(itemView);
+            tvUName=itemView.findViewById(R.id.tv_Uname);
+            tvUMobile=itemView.findViewById(R.id.tv_Umobile);
+            rlUsers=itemView.findViewById(R.id.rl_users);
 
 
         }

@@ -2,4 +2,5 @@
     <string name="app_name">EbtkarTask</string>
     <string name="offline">check your network</string>
     <string name="something_wrong">sorry! something went wrong</string>
+    <string name="users_activity">Users</string>
 </resources>

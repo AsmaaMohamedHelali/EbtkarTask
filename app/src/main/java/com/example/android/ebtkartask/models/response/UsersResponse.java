@@ -7,4 +7,8 @@ public class UsersResponse {
 
     public List<Client> clients = null;
 
+
+    public List<Client> getClients() {
+        return clients;
+    }
 }

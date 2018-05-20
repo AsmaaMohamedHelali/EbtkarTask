@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/rl_users"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_Uname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="date"
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_Umobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textDirection="ltr"
+        android:layout_below="@id/tv_Uname"
+        android:textStyle="bold"
+        android:text="customer name" />
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_Umobile"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorCornflowerBlue"
+        android:textStyle="bold" />
+
+</RelativeLayout>

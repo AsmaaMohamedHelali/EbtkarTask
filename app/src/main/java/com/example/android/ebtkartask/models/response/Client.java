@@ -11,4 +11,16 @@ public class Client {
     public List<Interest> interests = null;
     public List<Language> languages = null;
 
+
+    public String getName() {
+        return name;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public List<Interest> getInterests() {
+        return interests;
+    }
 }

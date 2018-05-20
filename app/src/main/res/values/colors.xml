@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorSnow">#FAFAFA</color>
+    <color name="colorCornflowerBlue">#6498FE</color>
+    <color name="colorSolitude">#DEE4EC</color>
+    <color name="colorLinkWater">#C8CACE</color>
 </resources>

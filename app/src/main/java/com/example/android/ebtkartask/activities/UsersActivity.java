@@ -3,6 +3,7 @@ package com.example.android.ebtkartask.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,9 +11,12 @@ import android.widget.Toast;
 
 import com.example.android.ebtkartask.R;
 import com.example.android.ebtkartask.adapters.UsersAdapter;
+import com.example.android.ebtkartask.models.response.Client;
 import com.example.android.ebtkartask.models.response.UsersResponse;
 import com.example.android.ebtkartask.utils.network.NetworkUtil;
 import com.example.android.ebtkartask.utils.webservice.MyTask;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UsersActivity extends Activity {
+public class UsersActivity extends AppCompatActivity {
     @BindView(R.id.rv_results)
     RecyclerView rvResults;
     @BindView(R.id.progressbar)
@@ -66,7 +70,10 @@ public class UsersActivity extends Activity {
             public void onResponse(Call<UsersResponse> call, Response<UsersResponse> response) {
                loadingProgressBar.setVisibility(View.GONE);
                 if(response.isSuccessful()){
-                    Toast.makeText(UsersActivity.this, "yessssss", Toast.LENGTH_SHORT).show();
+                    UsersResponse result=response.body();
+                    if(result!=null){
+                        initRecyclerView(result.clients);
+                    }
                 }
             }
 
@@ -81,7 +88,7 @@ public class UsersActivity extends Activity {
 
     }
 
-    private void initRecyclerView() {
+    private void initRecyclerView(List<Client> clients) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvResults.setLayoutManager(layoutManager);
 
@@ -95,7 +102,7 @@ public class UsersActivity extends Activity {
         /*
          * The GreenAdapter is responsible for displaying each item in the list.
          */
-        usersAdapter = new UsersAdapter( this);
+        usersAdapter = new UsersAdapter( clients,this);
         rvResults.setAdapter(usersAdapter);
     }
 }
