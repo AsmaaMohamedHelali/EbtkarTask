@@ -1,5 +1,6 @@
 package com.example.android.ebtkartask.activities;
 
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,15 +10,21 @@ import android.widget.TextView;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.example.android.ebtkartask.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
-    private TextView resultTextView;
-    private QRCodeReaderView qrCodeReaderView;
+    @BindView(R.id.txtBarcodeValue)
+    TextView resultTextView;
+    @BindView(R.id.qrdecoderview)
+    QRCodeReaderView qrCodeReaderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         qrCodeReaderView = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
         resultTextView=findViewById(R.id.txtBarcodeValue);
@@ -46,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements QRCodeReaderView.
     public void onQRCodeRead(String text, PointF[] points) {
         Log.d("url",text);
         resultTextView.setText(text);
+        Intent intent=new Intent(this,UsersActivity.class);
+        intent.putExtra("URL",text);
+        startActivity(intent);
+        finish();
     }
 
     @Override

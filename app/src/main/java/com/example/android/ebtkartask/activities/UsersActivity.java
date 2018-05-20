@@ -10,10 +10,15 @@ import android.widget.Toast;
 
 import com.example.android.ebtkartask.R;
 import com.example.android.ebtkartask.adapters.UsersAdapter;
+import com.example.android.ebtkartask.models.response.UsersResponse;
 import com.example.android.ebtkartask.utils.network.NetworkUtil;
+import com.example.android.ebtkartask.utils.webservice.MyTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UsersActivity extends Activity {
     @BindView(R.id.rv_results)
@@ -21,14 +26,19 @@ public class UsersActivity extends Activity {
     @BindView(R.id.progressbar)
     ContentLoadingProgressBar loadingProgressBar;
     private UsersAdapter usersAdapter;
+    private String url="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
         ButterKnife.bind(this);
+        getDataFromIntent();
         loadingProgressBar.setVisibility(View.VISIBLE);
         checkNetwork();
+    }
+    private void getDataFromIntent(){
+        url=getIntent().getStringExtra("URL");
     }
 
     private void checkNetwork() {
@@ -49,6 +59,26 @@ public class UsersActivity extends Activity {
     }
 
     private void callUsersService() {
+        Call<UsersResponse> call =
+                MyTask.getInstance().getMyAppService().getUsers(url);
+        call.enqueue(new Callback<UsersResponse>() {
+            @Override
+            public void onResponse(Call<UsersResponse> call, Response<UsersResponse> response) {
+               loadingProgressBar.setVisibility(View.GONE);
+                if(response.isSuccessful()){
+                    Toast.makeText(UsersActivity.this, "yessssss", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UsersResponse> call, Throwable t) {
+                loadingProgressBar.setVisibility(View.GONE);
+                Toast.makeText(UsersActivity.this, getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
     }
 
     private void initRecyclerView() {

@@ -7,7 +7,6 @@ import android.support.multidex.MultiDex;
 
 
 public class MyTaskApp extends Application {
-    String lang;
     Configuration config;
     private static Context sContext;
 
@@ -15,15 +14,7 @@ public class MyTaskApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        lang = Localization.getLocale(getApplicationContext());
         config = getBaseContext().getResources().getConfiguration();
-
-        if (!lang.equals("unknown") && !config.locale.getLanguage().equals(lang)) {
-            Localization.setLocale(getApplicationContext(), lang);
-        }
-
-
-
         sContext = getApplicationContext();
 
     }
@@ -33,9 +24,6 @@ public class MyTaskApp extends Application {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if (!lang.equals("unknown") && !config.locale.getLanguage().equals(lang)) {
-            Localization.setLocale(getApplicationContext(), lang);
-        }
 
     }
 

@@ -3,8 +3,6 @@ package com.example.android.ebtkartask.utils.webservice;
 
 
 
-import com.example.android.ebtkartask.utils.Constants;
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -22,8 +20,8 @@ public class MyTask {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(Level.BODY);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.serverURL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("http://m4saad.fekrait.com")
                 .client(MyTask.okClient())
                 .build();
 
