@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import com.example.android.ebtkartask.R;
 
-import java.io.Serializable;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> {
 

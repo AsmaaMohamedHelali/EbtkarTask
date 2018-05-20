@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EbtkarTask</string>
+    <string name="offline">check your network</string>
 </resources>
