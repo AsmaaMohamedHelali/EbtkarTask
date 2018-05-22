@@ -1,21 +1,35 @@
 package com.example.android.ebtkartask.activities;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.ebtkartask.R;
 import com.example.android.ebtkartask.adapters.UsersAdapter;
+import com.example.android.ebtkartask.interfaces.MakeCallInterface;
 import com.example.android.ebtkartask.models.response.Client;
+import com.example.android.ebtkartask.models.response.Language;
 import com.example.android.ebtkartask.models.response.UsersResponse;
 import com.example.android.ebtkartask.utils.network.NetworkUtil;
 import com.example.android.ebtkartask.utils.webservice.MyTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,13 +38,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UsersActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity implements MakeCallInterface {
     @BindView(R.id.rv_results)
     RecyclerView rvResults;
     @BindView(R.id.progressbar)
     ContentLoadingProgressBar loadingProgressBar;
     private UsersAdapter usersAdapter;
-    private String url="";
+    private String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +55,9 @@ public class UsersActivity extends AppCompatActivity {
         loadingProgressBar.setVisibility(View.VISIBLE);
         checkNetwork();
     }
-    private void getDataFromIntent(){
-        url=getIntent().getStringExtra("URL");
+
+    private void getDataFromIntent() {
+        url = getIntent().getStringExtra("URL");
     }
 
     private void checkNetwork() {
@@ -68,10 +83,10 @@ public class UsersActivity extends AppCompatActivity {
         call.enqueue(new Callback<UsersResponse>() {
             @Override
             public void onResponse(Call<UsersResponse> call, Response<UsersResponse> response) {
-               loadingProgressBar.setVisibility(View.GONE);
-                if(response.isSuccessful()){
-                    UsersResponse result=response.body();
-                    if(result!=null){
+                loadingProgressBar.setVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    UsersResponse result = response.body();
+                    if (result != null) {
                         initRecyclerView(result.clients);
                     }
                 }
@@ -102,7 +117,24 @@ public class UsersActivity extends AppCompatActivity {
         /*
          * The GreenAdapter is responsible for displaying each item in the list.
          */
-        usersAdapter = new UsersAdapter( clients,this);
+        usersAdapter = new UsersAdapter(clients, this);
         rvResults.setAdapter(usersAdapter);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void makePhoneCall(String number, String name) {
+
+        if (ActivityCompat.checkSelfPermission(UsersActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, getResources().getString(R.string.permission_denied), Toast.LENGTH_LONG).show();
+            return;
+        }
+        Intent callIntent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:" + number));
+        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (callIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(callIntent);
+        }
+
+    }
+
 }

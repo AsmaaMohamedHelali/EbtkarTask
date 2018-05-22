@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements QRCodeReaderView.
     TextView resultTextView;
     @BindView(R.id.qrdecoderview)
     QRCodeReaderView qrCodeReaderView;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +54,11 @@ public class MainActivity extends AppCompatActivity implements QRCodeReaderView.
     public void onQRCodeRead(String text, PointF[] points) {
         Log.d("url",text);
         resultTextView.setText(text);
-        Intent intent=new Intent(this,UsersActivity.class);
-        intent.putExtra("URL",text);
-        startActivity(intent);
+        if(intent==null){
+            intent=new Intent(this,UsersActivity.class);
+            intent.putExtra("URL",text);
+            startActivity(intent);
+        }
         finish();
     }
 

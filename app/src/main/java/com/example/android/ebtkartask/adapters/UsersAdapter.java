@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 
 import com.example.android.ebtkartask.R;
+import com.example.android.ebtkartask.activities.UsersActivity;
+import com.example.android.ebtkartask.interfaces.MakeCallInterface;
 import com.example.android.ebtkartask.models.response.Client;
 
 import java.util.List;
@@ -38,11 +40,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
     private List<Client> clients;
     private Context context;
+    private MakeCallInterface callInterface;
 
 
-    public UsersAdapter(List<Client> clients,Context context) {
+    public UsersAdapter(List<Client> clients,MakeCallInterface callInterface ) {
         this.clients = clients;
-        this.context=context;
+        this.callInterface=callInterface;
+
     }
 
 
@@ -63,16 +67,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     @Override
     public void onBindViewHolder(UsersViewHolder holder, final int position) {
         holder.tvUName.setText(clients.get(position).getName());
-        holder.tvUMobile.setText(clients.get(position).getMobile());
-//
-//        holder.rlOrders.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, OrderDetailsActivity.class);
-//                intent.putExtra("DETAILS", (Serializable) ordersResult.getData().get(position).getOrderDetails());
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.tvUMobile.setText(clients.get(position).getMobile().trim());
+        holder.rlUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callInterface.makePhoneCall("01151666492",clients.get(position).getName());
+            }
+        });
     }
 
 
